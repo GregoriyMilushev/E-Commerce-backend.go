@@ -1,0 +1,65 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, build cache, and executable files
+*.test
+*.out
+*.o
+*.a
+
+# Dependency directories (may be used in modules or vendored code)
+vendor/
+Godeps/
+
+# Go build files
+/build/
+/bin/
+/tmp/
+/*.lock
+/*.log
+
+# IntelliJ IDE files
+.idea/
+
+# VS Code settings
+.vscode/
+
+# macOS specific files
+.DS_Store
+
+# Linux generated file
+*.pid
+*.swp
+
+# GoLand project files
+.idea/
+
+# Module download cache
+*.mod
+*.sum
+
+# Go build cache
+*.build/
+
+# Log files
+*.log
+
+# Ignore Go coverage files
+*.coverprofile
+*.cov
+*.coverage
+*.cover.out
+
+# Ignore the results of the Go generate command
+*.gen.go
+
+# Ignore compiled JavaScript/TypeScript files (if applicable)
+*.js
+*.map
+*.tsbuildinfo
+
+.env
