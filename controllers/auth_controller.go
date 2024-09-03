@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 	"pharmacy-backend/models"
 	"pharmacy-backend/services"
@@ -86,15 +85,11 @@ func (ac *AuthController) Register(c *gin.Context) {
     }
     
     if err := c.ShouldBindJSON(&input); err != nil {
-        log.Fatalln("1111")
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
-    log.Printf("Could not start server: %v", input)
     hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
     if err != nil {
-        log.Fatalln("2222")
-
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
         return
     }
@@ -106,13 +101,11 @@ func (ac *AuthController) Register(c *gin.Context) {
         Role: models.RoleClient,
     }
 
-    if err := ac.userService.CreateUser(&user).Error; err != nil {
-        log.Fatalln("3333")
+    if err := ac.userService.CreateUser(&user); err != nil {
 
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
         return
     }
-    log.Fatalln("4444")
 
     c.JSON(http.StatusOK, gin.H{"message": "User registered successfully"})
 }

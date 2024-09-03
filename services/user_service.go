@@ -30,11 +30,6 @@ func (s *UserService) CreateUser(user *models.User) error {
 }
 
 func (s *UserService) GetUserByEmail(email string) (models.User, error) {
-    // if err == gorm.ErrRecordNotFound {
-    //     c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
-    //     return
-    // }
-    // c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve user"})
     var user models.User
     if err := s.db.Where("email = ?", email).First(&user).Error; err != nil {
         return user, err

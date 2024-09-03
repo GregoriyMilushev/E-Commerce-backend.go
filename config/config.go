@@ -39,9 +39,7 @@ func LoadConfig() *Config {
     if err := godotenv.Load(); err != nil {
         log.Println("No .env file found")
     }
-    log.Println("111111")
     once.Do(func() {
-        log.Println("inn Once do")
         config = &Config{
             TZ:                   getEnv("TZ", "UTC"),
             GoEnv:                getEnv("GO_ENV", "development"),
@@ -85,5 +83,5 @@ func ConnectDatabase(databaseURL string) (*gorm.DB, error) {
 }
 
 func GetDatabaseURL(config *Config) string {
-    return config.DatabaseUsername + ":" + config.DatabasePassword + "@tcp(" + config.DatabaseHost + ":" + config.DatabasePort + ")/" + config.DatabaseName
+    return config.DatabaseUsername + ":" + config.DatabasePassword + "@tcp(" + config.DatabaseHost + ":" + config.DatabasePort + ")/" + config.DatabaseName + "?parseTime=True"
 }
