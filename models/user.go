@@ -1,6 +1,8 @@
 package models
 
 import (
+	"errors"
+
 	"gorm.io/gorm"
 )
 
@@ -21,4 +23,15 @@ type User struct {
     ProfilePictureURL *string    `gorm:"size:255" json:"profile_picture_url"`
     BillingAddress    *string    `gorm:"type:text" json:"billing_address"`
     StripeCustomerID  *string    `gorm:"size:255" json:"stripe_customer_id"`
+}
+
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+    if !u.IsValidRole() {
+        return errors.New("invalid role: must be either 'admin' or 'client'")
+    }
+    return nil
+}
+
+func (u *User) IsValidRole() bool {
+    return u.Role == RoleAdmin || u.Role == RoleClient
 }

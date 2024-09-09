@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 	"pharmacy-backend/models"
 	"pharmacy-backend/services"
@@ -21,7 +20,6 @@ func NewUserController(db *gorm.DB) *UserController {
 }
 
 func (ctrl *UserController) GetUsers(c *gin.Context) {
-    log.Println("Handling /ping request")
     users, err := ctrl.userService.GetAllUsers()
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

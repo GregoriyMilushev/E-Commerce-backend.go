@@ -15,23 +15,31 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
     // }
     userController := controllers.NewUserController(db)
     authController := controllers.NewAuthController(db)
+    // orderController := controllers.NewOrderController(db)
 
     api := router.Group("/api")
     {
+        // api.GET("/orders/:id", orderController.GetOrderById)
+
         logged := api.Group("/",)
         logged.Use(middleware.RequireAuth)
         {
-            logged.GET("/users", userController.GetUsers)
-            logged.POST("/users", userController.CreateUser)
             logged.POST("/me", authController.Me)
-        }
 
-        auth := router.Group("/auth")
-        {
-            auth.POST("/login", authController.Login)
-            auth.POST("/register", authController.Register)
-            // auth.GET("/google/login", authController.GoogleLogin)
-            // auth.GET("/google/callback", authController.GoogleCallback)
+            admin := logged.Group("/")
+            admin.Use(middleware.RequireAdminRole)  
+            {
+                admin.GET("/users", userController.GetUsers)    
+                admin.POST("/users", userController.CreateUser) 
+            }
         }
+    }
+
+    auth := router.Group("/auth")
+    {
+        auth.POST("/login", authController.Login)
+        auth.POST("/register", authController.Register)
+        // auth.GET("/google/login", authController.GoogleLogin)
+        // auth.GET("/google/callback", authController.GoogleCallback)
     }
 }

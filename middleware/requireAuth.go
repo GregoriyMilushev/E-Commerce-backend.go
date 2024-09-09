@@ -28,9 +28,7 @@ func RequireAuth(c *gin.Context) {
 		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
 		return []byte(config.LoadConfig().JwtSectet), nil
 	})
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	
 	if claims, ok := token.Claims.(jwt.MapClaims); ok {
 		if float64(time.Now().Unix()) > claims["exp"].(float64) {
 			fmt.Println("333")
@@ -42,7 +40,7 @@ func RequireAuth(c *gin.Context) {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
 
-		c.Set("user", user)
+		c.Set("user", &user)
 		c.Next()
 	} else {
 		fmt.Println("666")
