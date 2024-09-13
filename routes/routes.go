@@ -15,22 +15,29 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
     // }
     userController := controllers.NewUserController(db)
     authController := controllers.NewAuthController(db)
-    // orderController := controllers.NewOrderController(db)
+    orderController := controllers.NewOrderController(db)
 
     api := router.Group("/api")
     {
-        // api.GET("/orders/:id", orderController.GetOrderById)
+        api.POST("/orders", orderController.CreateOrder)
 
         logged := api.Group("/",)
         logged.Use(middleware.RequireAuth)
         {
             logged.POST("/me", authController.Me)
-
+            // Orders
+            logged.GET("/orders/:id", orderController.ShowOrder)
+            logged.GET("/orders", orderController.GetOrders)
+            
             admin := logged.Group("/")
             admin.Use(middleware.RequireAdminRole)  
             {
+                // Users
                 admin.GET("/users", userController.GetUsers)    
                 admin.POST("/users", userController.CreateUser) 
+                // Orders
+                admin.GET("/all-orders", orderController.GetAllOrders)
+                admin.DELETE("/orders/:id", orderController.DeleteOrder)
             }
         }
     }
