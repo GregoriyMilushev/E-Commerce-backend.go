@@ -105,5 +105,5 @@ func (oc *OrderController) DeleteOrder(c *gin.Context) {
         return
     }
 
-    c.JSON(http.StatusOK, gin.H{"message": "Order soft deleted successfully"})
+    c.JSON(http.StatusOK, gin.H{"message": "Order deleted successfully"})
 }
