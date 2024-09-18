@@ -31,10 +31,8 @@ func (ps *ProductService) GetPaginatedProducts(page int, pageSize int, name stri
     var products []models.Product
     var totalItems int64
 
-    // Create a base query
     query := ps.db.Model(&models.Product{})
 
-    // Apply filters if provided
     if name != "" {
         query = query.Where("name LIKE ?", "%"+name+"%")
     }
@@ -45,12 +43,10 @@ func (ps *ProductService) GetPaginatedProducts(page int, pageSize int, name stri
         query = query.Where("price <= ?", maxPrice)
     }
 
-    // Get the total count of items before applying pagination
     if err := query.Count(&totalItems).Error; err != nil {
         return nil, 0, err
     }
 
-    // Apply pagination
     offset := (page - 1) * pageSize
     if err := query.Limit(pageSize).Offset(offset).Preload("Brand").Find(&products).Error; err != nil {
         return nil, 0, err

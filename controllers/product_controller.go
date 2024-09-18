@@ -45,22 +45,22 @@ func (pc *ProductController) GetProducts(c *gin.Context) {
 
 
 func (pc *ProductController) ShowProductr(c *gin.Context) {
-    orderId, err := strconv.ParseUint(c.Param("id"), 10, 64)
+    productId, err := strconv.ParseUint(c.Param("id"), 10, 64)
     if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid order ID"})
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
         return
     }
 
-    order, err  := pc.productService.GetProductByID(uint(orderId))
+    product, err  := pc.productService.GetProductByID(uint(productId))
     if  err != nil {
         c.JSON(http.StatusNotFound, gin.H{
-            "message": "Order not found",
+            "message": "Product not found",
         })
         return
     }
 
     c.JSON(http.StatusOK, gin.H{
-        "order": order,
+        "product": product,
     })
 }
 

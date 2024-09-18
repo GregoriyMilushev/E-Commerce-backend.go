@@ -16,10 +16,13 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
     userController := controllers.NewUserController(db)
     authController := controllers.NewAuthController(db)
     orderController := controllers.NewOrderController(db)
+    productController := controllers.NewProductController(db)
 
     api := router.Group("/api")
     {
         api.POST("/orders", orderController.CreateOrder)
+        api.GET("/products", productController.GetProducts)
+        api.GET("/products/:id", productController.ShowProductr)
 
         logged := api.Group("/",)
         logged.Use(middleware.RequireAuth)
@@ -38,6 +41,10 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
                 // Orders
                 admin.GET("/all-orders", orderController.GetAllOrders)
                 admin.DELETE("/orders/:id", orderController.DeleteOrder)
+                // Products
+                admin.POST("/products", productController.CreateProduct)
+                admin.PATCH("/products/:id", productController.UpdateProduct)
+                admin.DELETE("/products/:id", productController.Delete)
             }
         }
     }
