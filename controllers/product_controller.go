@@ -44,7 +44,7 @@ func (pc *ProductController) GetProducts(c *gin.Context) {
 }
 
 
-func (pc *ProductController) ShowProductr(c *gin.Context) {
+func (pc *ProductController) ShowProduct(c *gin.Context) {
     productId, err := strconv.ParseUint(c.Param("id"), 10, 64)
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
@@ -111,7 +111,7 @@ func (pc *ProductController) Delete(c *gin.Context) {
         return
     }
 
-    err = pc.productService.DeletePrduct(uint(productID))
+    err = pc.productService.DeleteProduct(uint(productID))
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return

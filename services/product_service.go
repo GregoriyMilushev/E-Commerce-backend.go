@@ -107,7 +107,7 @@ func (ps *ProductService) UpdateProduct(id uint, updatedProduct *models.Product)
     return productResponse, nil
 }
 
-func (ps *ProductService) DeletePrduct(id uint) error {
+func (ps *ProductService) DeleteProduct(id uint) error {
     result := ps.db.Delete(&models.Product{}, id)
     if result.Error != nil {
         return result.Error

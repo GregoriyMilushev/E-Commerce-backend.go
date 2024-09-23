@@ -17,12 +17,15 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
     authController := controllers.NewAuthController(db)
     orderController := controllers.NewOrderController(db)
     productController := controllers.NewProductController(db)
+    brandController := controllers.NewBrandController(db)
 
     api := router.Group("/api")
     {
         api.POST("/orders", orderController.CreateOrder)
         api.GET("/products", productController.GetProducts)
-        api.GET("/products/:id", productController.ShowProductr)
+        api.GET("/products/:id", productController.ShowProduct)
+        api.GET("/brands", brandController.GetBrands)
+        api.GET("/brands/:id", brandController.ShowBrand)
 
         logged := api.Group("/",)
         logged.Use(middleware.RequireAuth)
@@ -45,6 +48,10 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
                 admin.POST("/products", productController.CreateProduct)
                 admin.PATCH("/products/:id", productController.UpdateProduct)
                 admin.DELETE("/products/:id", productController.Delete)
+                // Brands
+                admin.POST("/brands", brandController.CreateBrand)
+                admin.PATCH("/brands/:id", brandController.UpdateBrand)
+                admin.DELETE("/brands/:id", brandController.Delete)
             }
         }
     }
